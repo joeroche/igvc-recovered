@@ -1,0 +1,25 @@
+rtabmap:
+  ros__parameters:
+    use_sim_time: true
+    subscribe_rgb: true
+    subscribe_depth: true
+    subscribe_scan: false
+    rgb_topic: /camera/image
+    depth_topic: /depth_camera/depth_image
+    camera_info_topic: /camera/camera_info
+    odom_topic: /odom
+    frame_id: base_link
+    odom_frame_id: odom
+    map_frame_id: map
+    publish_tf: true
+    publish_map: true
+    approx_sync: true
+    topic_queue_size: 100
+    sync_queue_size: 100
+    wait_for_transform: 0.05
+    tf_delay: 0.05
+    max_stereo_disparity: 256
+    optimizer/iterations: 20
+    detection_rate: 1
+    scan_angle_max: 3.14
+    scan_angle_min: -3.14

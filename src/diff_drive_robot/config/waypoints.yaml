@@ -1,0 +1,11 @@
+waypoint_driver:
+  ros__parameters:
+    goal_frame: "odom"
+    odom_topic: "/diff_drive_controller/odom"
+    goal_xs: [-4.0]
+    goal_ys: [-42.6]
+    goal_tolerance: 0.3
+    max_speed: 0.35
+    max_angular_speed: 0.8
+    yaw_gain: 1.2
+    pause_at_goal: 1.0

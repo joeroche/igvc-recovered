@@ -1,0 +1,10 @@
+*.bag binary
+*.bin binary
+*.dll binary
+*.lib binary
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.zip binary
+
