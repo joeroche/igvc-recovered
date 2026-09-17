@@ -1,0 +1,4 @@
+<launch>
+  <include file="$(find setup)/launch/pathfinder.launch"/> 
+  <include file="$(find odrive_ros)/launch/odrive.launch"/> 
+</launch>

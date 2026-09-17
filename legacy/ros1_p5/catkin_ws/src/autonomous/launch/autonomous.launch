@@ -1,0 +1,26 @@
+<launch>
+  <include file="$(find autonomous)/launch/robot_config.launch"/> 
+  <include file="$(find autonomous)/launch/slam.launch"/> 
+  <include file="$(find autonomous)/launch/move-base.launch"/> 
+  <include file="$(find autonomous)/launch/rviz.launch"/> 
+
+  <include file="$(find autonomous)/launch/realsense.launch" machine="nano"/> 
+
+  <!-- <node pkg="autonomous" type="proc_image.py" name="proc_image" output="screen"/> -->
+
+  <node pkg="autonomous" type="movement.py" name="movement" output="screen"/>
+
+   	<!-- <node pkg="urg_node" type="urg_node" name="lidar_pub">
+       	<param name="serial_port" value="/dev/ttyACM0"/>
+        <param name="serial_baud" value="115200"/>
+   	</node> -->
+
+  <node pkg="autonomous" type="publish-message.py" name="repeat_publisher"/>	
+  <!-- <node pkg="setup" type="led_control" name="led_control"/> -->
+
+</launch>
+
+
+  <!-- <machine name="nano" address="nano" env-loader="/opt/ros/melodic/env.sh" user="fjdiez" />
+
+  <include file="$(find pathfinder_nav)/launch/realsense.launch" machine="nano"/> -->

@@ -1,0 +1,6 @@
+
+<launch>
+  <include file="$(find odrive_ros)/launch/odrive.launch"/> 
+
+  <node pkg="teleop" type="odrv_manual_control.py" name="controller" output="screen"/>
+</launch>

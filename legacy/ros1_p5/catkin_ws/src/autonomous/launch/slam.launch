@@ -1,0 +1,15 @@
+<launch>
+
+  <node name="slam_toolbox" pkg="slam_toolbox" type="async_slam_toolbox_node" output="screen">
+    <param name="use_sim_time" value="false" />
+    <param name="map_file_name" value="" />
+    <param name="odom_frame" value="odom" />
+    <param name="base_frame" value="base_link" />
+    <param name="scan_topic" value="/scan" />
+    <param name="resolution" value="0.05" />
+    <param name="publish_period_sec" value="0.2" /> 
+    <param name="map_update_interval" value="0.2" /> 
+    <param name="transform_publish_period" value="0.05" /> 
+  </node>
+</launch>
+

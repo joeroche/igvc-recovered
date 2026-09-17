@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<robot name="pathfinder">
+
+  <!-- Links -->
+
+  <link name="base_footprint">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+      <material name="Invisible">
+        <color rgba="0 0 0 0"/>
+      </material>
+    </visual>
+  </link>
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0.13335" rpy="0 0 0"/> <!-- Half of height -->
+      <geometry>
+        <box size="0.8636 0.7874 0.2667"/>
+      </geometry>
+      <material name="Cyan">
+        <color rgba="0 0.9 0.9 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <link name="base_laser">
+    <visual>
+      <origin xyz="0 0 0.03815" rpy="0 0 0"/> <!-- Half of height -->
+      <geometry>
+        <cylinder length="0.0763" radius="0.0254"/>
+      </geometry>
+      <material name="Black">
+        <color rgba="0.2 0.2 0.2 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <link name="camera_link">
+    <visual>
+      <origin xyz="0 0 0.01016" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.02032" radius="0.04445"/>
+      </geometry>
+      <material name="Blue">
+        <color rgba="0 0 1 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <link name="gps">
+    <visual>
+      <origin xyz="0 0 0.047625" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.09525" radius="0.028575"/>
+      </geometry>
+      <material name="Yellow">
+        <color rgba="1 1 0 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <!-- Joints -->
+
+  <joint name="base_footprint_to_base_link" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0.1951" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="base_link_to_base_laser" type="fixed">
+    <parent link="base_link"/>
+    <child link="base_laser"/>
+    <origin xyz="0.0778 0 0.2" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="base_camera" type="fixed">
+    <parent link="base_laser"/>
+    <child link="camera_link"/>
+    <origin xyz="0.0889 0 0.132" rpy="0 0.0 0"/> 
+  </joint>
+
+  <joint name="base_gps" type="fixed">
+    <parent link="base_link"/>
+    <child link="gps"/>
+    <origin xyz="0.0135 0 0.2132" rpy="0 0 0"/>
+  </joint>
+
+</robot>

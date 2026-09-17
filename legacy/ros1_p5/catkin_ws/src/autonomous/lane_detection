@@ -1,0 +1,94 @@
+#!/usr/bin/env python3
+from cmath import nan
+from email import message
+import cv2, rospy
+import numpy as np
+from std_msgs.msg import String
+from sensor_msgs.msg import Image, CameraInfo
+from cv_bridge import CvBridge, CvBridgeError
+import message_filters
+
+
+x = 1
+bridge = CvBridge()
+
+depth_pub = None
+new_info_pub = None
+def callback(rgb_msg, depth_msg, info_msg):
+    global depth_pub, new_info_pub       
+    depth_msg.encoding = "mono16"
+    rgb = bridge.imgmsg_to_cv2(rgb_msg, "bgr8")
+    depth = bridge.imgmsg_to_cv2(depth_msg, "mono16")
+
+    #lanes = cv2.imread("jpeg_img")
+    lanes = cv2.cvtColor(rgb, cv2.COLOR_BGR2HSV)
+
+    low_white = (0,0,220)
+    high_white = (255,255,255)
+
+    mask = cv2.inRange(lanes, low_white, high_white)
+    #result = cv2.bitwise_and(rgb, rgb, mask = mask)
+
+     # find all of the connected components (white blobs in your image).
+    # im_with_separated_blobs is an image where each detected blob has a different pixel value ranging from 1 to nb_blobs - 1.
+    nb_blobs, im_with_separated_blobs, stats, _ = cv2.connectedComponentsWithStats(mask)
+    # stats (and the silenced output centroids) gives some information about the blobs. See the docs for more information. 
+    # here, we're interested only in the size of the blobs, contained in the last column of stats.
+    sizes = stats[:, -1]
+    # the following lines result in taking out the background which is also considered a component, which I find for most applications to not be the expected output.
+    # you may also keep the results as they are by commenting out the following lines. You'll have to update the ranges in the for loop below. 
+    sizes = sizes[1:]
+    nb_blobs -= 1
+
+    # minimum size of particles we want to keep (number of pixels).
+    # here, it's a fixed value, but you can set it as you want, eg the mean of the sizes or whatever.
+    min_size = 150
+    set_value = np.max(mask)
+
+
+    # output image with only the kept components
+    im_result = np.zeros((mask.shape), dtype=np.uint8)
+    # for every component in the image, keep it only if it's above min_size
+    for blob in range(nb_blobs):
+        if sizes[blob] >= min_size:
+            # see description of im_with_separated_blobs above
+            im_result[im_with_separated_blobs == blob + 1] = set_value
+
+
+
+    depth = cv2.bitwise_and(depth, depth, mask = im_result)
+
+
+   
+    rect_depth_msg = bridge.cv2_to_imgmsg(depth)
+    rect_depth_msg.header.frame_id = depth_msg.header.frame_id
+    rect_depth_msg.header.stamp = rospy.Time.now()
+    info_msg.header.stamp = rect_depth_msg.header.stamp
+    depth_pub.publish(rect_depth_msg)
+    new_info_pub.publish(info_msg)
+
+
+
+def listener ():
+    global depth_pub, new_info_pub
+    rospy.init_node('lane_detection', anonymous = True)
+    
+    image_sub = message_filters.Subscriber("/camera/color/image_raw", Image)
+    depth_sub = message_filters.Subscriber("/camera/aligned_depth_to_color/image_raw", Image)
+    info_sub = message_filters.Subscriber("camera/aligned_depth_to_color/camera_info", CameraInfo)
+    ts = message_filters.TimeSynchronizer([image_sub, depth_sub, info_sub], 10)
+    ts.registerCallback(callback)
+    depth_pub = rospy.Publisher("image_rect", Image, queue_size = 5, latch=True)
+    new_info_pub = rospy.Publisher("info_rect", CameraInfo, queue_size = 5, latch=True)
+    rospy.spin()
+            
+    
+
+if __name__ == '__main__':
+    listener()
+
+
+
+#plt.imshow(mask, cmap = "gray")
+#plt.show()
+

@@ -1,0 +1,29 @@
+footprint: [[-0.4, -0.25], [-0.4, 0.25], [0.4, 0.25], [0.4, -0.25]]
+
+obstacle_layer:
+  obstacle_range: 60.0  # 60.0 seems excessively high
+  raytrace_range: 70.0  # Same here, reduce to a more reasonable range
+  z_resolution: 1
+  z_voxels: 4
+  publish_voxel_map: true
+  footprint_clearing_enabled: true  
+  observation_sources: laserscan lanes
+  laserscan: 
+    sensor_frame: camera_link
+    data_type: LaserScan
+    topic: /scan
+    marking: true
+    clearing: true
+    min_obstacle_height: 100 #0.333
+    inf_is_valid: true
+  lanes: 
+    sensor_frame: base_laser
+    data_type: PointCloud2
+    topic: /laser_object/depth/points
+    min_obstacle_height: -1
+    marking: true
+    clearing: true
+
+inflation_layer:
+  cost_scaling_factor: .2  # Increase to make the robot more cautious around obstacles
+  inflation_radius: .2 # Reduce to avoid overly conservative behavior

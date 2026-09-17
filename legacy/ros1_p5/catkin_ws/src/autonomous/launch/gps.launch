@@ -1,0 +1,16 @@
+<launch>
+
+ <node name="reach_rs_driver" pkg="reach_rs_driver" type="reach_rs_driver_node" output="screen">
+   <param name="reach_rs_host_or_ip" value="192.168.42.1"/>
+   <param name="reach_rs_port" value="9000"/>
+   <param name="reach_rs_frame_id" value="gps"/>
+   <param name="fix_timeout" value="0.5"/>
+   <param name="useRMC" value="false"/>
+ </node>
+    <include file="$(find realsense2_camera)/launch/rs_camera.launch"/>
+
+
+</launch>
+
+
+

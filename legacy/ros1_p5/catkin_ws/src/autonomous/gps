@@ -1,0 +1,30 @@
+#!/usr/bin/env python
+
+import rospy
+import subprocess
+
+def run_nmea_tcp_driver():
+    # Initialize the ROS node
+    rospy.init_node('nmea_tcp_driver_node', anonymous=True)
+    
+    # Parameters for the command
+    host = rospy.get_param('~host', '172.20.10.8')
+    port = rospy.get_param('~port', '9000')
+    
+    # Command to be executed
+    command = ['rosrun', 'reach_ros_node', 'nmea_tcp_driver', f'_host:={host}', f'_port:={port}']
+    
+    # Log the command being run
+    rospy.loginfo(f"Running command: {' '.join(command)}")
+    
+    # Run the command
+    subprocess.call(command)
+    
+    # Keep the node running
+    rospy.spin()
+
+if __name__ == '__main__':
+    try:
+        run_nmea_tcp_driver()
+    except rospy.ROSInterruptException:
+        pass

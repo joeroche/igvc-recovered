@@ -1,0 +1,17 @@
+<launch>
+    <include file="$(find realsense2_camera)/launch/rs_camera.launch"/>
+  
+    <node pkg="tf" type="static_transform_publisher" name="static_tf_camera_align" args="0 0 0 0 0 0 camera_link camera_aligned_depth_to_color_frame 100"/>
+
+    <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_camera_align2" args="0 0 0 0 0 0 camera_aligned_depth_to_color_frame camera_color_frame"/> -->
+
+
+
+    <!-- <node pkg="autonomous" type="lane_detection" name="lane_detection"/> -->
+
+    <!-- <node pkg="nodelet" type="nodelet" name="nodelet_manager" args="manager" /> -->
+
+  <!-- <node pkg="tf" type="static_transform_publisher" name="color_tf_pub" args="0 0 0 0 0 0 camera_link camera_color_optical_frame 100" />
+
+    <node pkg="tf" type="static_transform_publisher" name="depth_tf_pub" args="0 0 0 0 0 0 camera_link camera_depth_optical_frame 100"/> -->
+</launch>

@@ -1,0 +1,10 @@
+  
+<launch>
+   	<node pkg="urg_node" type="urg_node" name="lidar_pub">
+       	<param name="serial_port" value="/dev/ttyACM0"/>
+		<param name="serial_baud" value="115200"/>
+		<param name="angle_max" value = ".7">
+		<param name="angle_min" value = "-.7">
+	</node>
+
+</launch>

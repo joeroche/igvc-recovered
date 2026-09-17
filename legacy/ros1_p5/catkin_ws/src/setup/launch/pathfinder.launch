@@ -1,0 +1,74 @@
+<launch>
+   	<!-- Load the urdf into the parameter server. -->
+   	<param name="robot_description" textfile="$(find setup)/urdf/pathfinder.urdf"/>
+    
+   	<node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_pub" >
+   	</node>
+
+	  <!-- <node pkg="setup" type="setup.py" name="repeat_publisher2"/>	 -->
+	  <node pkg="setup" type="led_control.py" name="led_control"/>
+
+
+
+
+
+	<node pkg="rostopic" type="rostopic" name="rostopic" args="pub vehicle_state std_msgs/String autonomous"/>
+
+
+	<node name="reach_rs_driver" pkg="reach_rs_ros_driver" type="reach_rs_driver_node" output="screen">
+	<param name="reach_rs_host_or_ip" value="172.20.10.6"/>
+	<param name="reach_rs_port" value="9000"/>
+	<param name="reach_rs_frame_id" value="gps"/>
+	<param name="fix_timeout" value="0.5"/>
+	<param name="useRMC" value="false"/>
+	</node>
+
+	
+
+
+	<!-- <node pkg="urg_node" type="urg_node" name="lidar_pub">
+       	<param name="serial_port" value="/dev/ttyACM0"/>
+   	</node> -->
+<!-- 
+   	<node pkg="robot_localization" type="navsat_transform_node" name="UTM_pub">
+		<param name="delay" value="5"/>
+		<param name="yaw_offset" value="1.5707963"/>
+		<param name="yaw_offset" value="0"/>
+		<param name="zero_altitude" value="true"/>
+		<param name="broadcast_cartesian_transform" value="true"/>
+		<param name="transform_timeout" value="0"/>
+		<remap from="/imu/data" to="/mavros/imu/data"/>
+		<remap from="/odometry/filtered" to="/odom"/>
+		<remap from="/gps/fix" to="/mavros/global_position/global"/>	
+	</node>
+	 -->
+
+	<!-- <node pkg="tf" type="static_transform_publisher" name="laser_broadcaster" args="0 0 0 0 0 0 1 base_laser laser 100" /> -->
+
+	<!-- <arg name="fcu_url" default="/dev/ttyACM2:57600" />
+	<arg name="gcs_url" default="" />
+	<arg name="tgt_system" default="1" />
+	<arg name="tgt_component" default="1" />
+	<arg name="log_output" default="screen" />
+	<arg name="fcu_protocol" default="v2.0" />
+	<arg name="respawn_mavros" default="true" />
+
+	<include file="$(find mavros)/launch/node.launch">
+		<arg name="pluginlists_yaml" value="$(find mavros)/launch/px4_pluginlists.yaml" />
+		<arg name="config_yaml" value="$(find mavros)/launch/px4_config.yaml" />
+
+		<arg name="fcu_url" value="$(arg fcu_url)" />
+		<arg name="gcs_url" value="$(arg gcs_url)" />
+		<arg name="tgt_system" value="$(arg tgt_system)" />
+		<arg name="tgt_component" value="$(arg tgt_component)" />
+		<arg name="log_output" value="$(arg log_output)" />
+		<arg name="fcu_protocol" value="$(arg fcu_protocol)" />
+		<arg name="respawn_mavros" default="$(arg respawn_mavros)" />
+	</include> -->
+
+    <!-- <arg name="global_position/frame_id" default="world"/> -->
+      	<!-- <arg name="global_position/frame_id" default="$(arg global_position/frame_id) "/> -->
+
+
+
+</launch>
